@@ -25,6 +25,34 @@ public class PathTest {
 	}
 
 	@Test
+	public void there_is_path_between_Seoul_and_tokyo(){
+		Path p = path();
+		try{
+			assertEquals(p.hasPath("Seoul","Tokyo"),true);
+		}
+		catch(startNotFoundError err){}
+	}
+
+	@Test
+	public void there_is_path_between_Beijing_and_Tokyo(){
+		Path p = path();
+		try{
+			assertEquals(p.hasPath("Beijing","Tokyo"),true);
+		}
+		catch(startNotFoundError err){}
+	}
+
+	@Test
+	public void there_is_path_between_Bangalore_and_Beijing(){
+		Path p = path();
+		try{
+			assertEquals(p.hasPath("Bangalore","Beijing"),true);
+		}
+		catch(startNotFoundError err){}
+	}
+
+
+	@Test
 	public void there_is_path_between_Bangalore_and_Dubai(){
 		Path p = path();
 		try{
