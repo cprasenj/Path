@@ -13,16 +13,18 @@ public class Paths {
 	public static void main(String[] args) {
 		Path p = path();
 		boolean state = false;
-		if(args!=null) {
-			String start = args[0];
-			String destination = args[1];
-			try{
-				state = p.hasPath(start,destination);
-			}
-			catch(startNotFoundError e){
-				throw new Error(e);
-			}
-			System.out.println(state);
-		}		
+		if(args[0]==null) {
+			System.out.println("No input");
+			return;
+		} 
+		String start = args[0];
+		String destination = args[1];
+		try{
+			state = p.hasPath(start,destination);
+		}
+		catch(startNotFoundError e){
+			throw new Error(e);
+		}
+		System.out.println(state);
 	}	
 }

@@ -7,6 +7,7 @@ class startNotFoundError extends Exception {
 
 public class Path{
 	private Map<Start, Destination> map = new HashMap<Start, Destination>();
+	private Set<String> startList = new HashSet<String>();
 	public void insertPath(String start,String destination) {
 		Start s = new Start(start);
 		if(map.get(s)!=null){
@@ -14,6 +15,19 @@ public class Path{
 		}
 		else
 			map.put(new Start(start), new Destination(destination));
+	}
+
+	private String findNewStart(Start start) {
+		Destination s = map.get(start);
+		Object[] dList = (s.set).toArray();
+		Object[] starts = startList.toArray();
+		for(Object d:dList){
+			for(Object st:starts){
+				if(((String)d).equals((String)st)==false)
+					return (String)d;
+			}
+		}
+		return "noStart";
 	}
 
 	public boolean hasPath(String start,String destination)throws startNotFoundError {
@@ -25,8 +39,13 @@ public class Path{
 				tmp = (Start)st;
 				state = true;
 			}
-		if(state == false) {
+		if(state == false) 
 			throw new Error("Start not found");			
+		if(state == true && map.get(tmp).place(destination) == false) {
+			startList.add(start);
+			String newStart = findNewStart(tmp);
+			if(newStart == "noStart") return false;
+			return hasPath(newStart,destination);
 		}
 		return map.get(tmp).place(destination);
 	} 

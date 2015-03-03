@@ -16,22 +16,22 @@ public class PathTest {
 	}
 
 	@Test
-	public void there_is_no_path_between_Bangalore_and_tokyo(){
+	public void there_is_path_between_Bangalore_and_tokyo(){
 		Path p = path();
 		try{
-			assertEquals(p.hasPath("Bangalore","Tokyo"),false);
+			assertEquals(p.hasPath("Bangalore","Tokyo"),true);
 		}
 		catch(startNotFoundError err){}
 	}
 
-	// @Test
-	// public void there_is_path_between_Bangalore_and_Dubai(){
-	// 	Path p = path();
-	// 	try{
-	// 		assertEquals(p.hasPath("Bangalore","Dubai"),true);
-	// 	}
-	// 	catch(startNotFoundError err){}
-	// }
+	@Test
+	public void there_is_path_between_Bangalore_and_Dubai(){
+		Path p = path();
+		try{
+			assertEquals(p.hasPath("Bangalore","Dubai"),true);
+		}
+		catch(startNotFoundError err){}
+	}
 
 	@Test(expected = java.lang.Error.class)
 	public void startNotFoundError() {
@@ -65,10 +65,10 @@ public class PathTest {
 	}
 
 	@Test
-	public void there_is_no_path_between_Bangalore_Tokyo(){
+	public void there_is_path_between_Bangalore_Singapore(){
 		Path p = path();
 		try{
-			assertEquals(p.hasPath("Bangalore","Tokyo"),false);
+			assertEquals(p.hasPath("Bangalore","Singapore"),true);
 		}
 		catch(startNotFoundError err){}
 	}
