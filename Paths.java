@@ -26,5 +26,8 @@ public class Paths {
 			throw new Error(e);
 		}
 		System.out.println(state);
+		if(state){
+			System.out.println(p.getPath());
+		}
 	}	
 }
