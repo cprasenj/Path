@@ -35,7 +35,7 @@ public class Path{
 		Start s = new Start(start),tmp = null;
 		Object[] set = map.keySet().toArray();
 		boolean state = false; 
-		for(Object st : set) 
+		for(Object st : set)
 			if(((Start)st).Place().equals(s.Place())) {
 				tmp = (Start)st;
 				state = true;
