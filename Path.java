@@ -8,7 +8,7 @@ class startNotFoundError extends Exception {
 public class Path{
 	private Map<Start, Destination> map = new HashMap<Start, Destination>();
 	private Set<String> startList = new HashSet<String>();
-	private String path = " ";
+	private String path = "";
 	public void insertPath(String start,String destination) {
 		Start s = new Start(start);
 		if(map.get(s)!=null){
@@ -59,5 +59,8 @@ public class Path{
 
 	public String getPath() {
 		return this.path; 
+	}
+	public Map getCombinations() {
+		return this.map;
 	} 
 }

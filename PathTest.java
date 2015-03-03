@@ -106,7 +106,7 @@ public class PathTest {
 		Path p = path();
 		try{
 			assertEquals(p.hasPath("Bangalore","Singapore"),true);
-			assertEquals(p.getPath()," Bangalore->Singapore");
+			assertEquals(p.getPath(),"Bangalore->Singapore");
 		}
 		catch(startNotFoundError err){}
 	}
