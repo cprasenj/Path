@@ -24,22 +24,29 @@ public class Paths {
 		return p;
 	}
 
+	public static String addCountry(String fileName,Path p) {
+		String result = "";
+		String[] countryCity = null;
+		countryCity = fileReader(fileName).split("\r\n");
+		String[] path = p.getPath().split("->");
+		for(String st:path){
+			for(String c : countryCity){
+				if(c.split(",")[0].equals(st))
+					result+=(st+"["+c.split(",")[1]+"] ");
+			}
+		}
+		return result;	
+	}
+
 	public static void main(String[] args) {
 		boolean state = false;
-		Path p = null;
-		Map<Start, Destination> map = null;
-		String[] countryCity = null;
-		String result = "";
 		if(args[0]==null) {
 			System.out.println("No input");
 			return;
 		}
-		if(args[0].equals("-f"))
-			p = pathSetter(args[1]);
-		String start = args[args.length-2];
-		String destination = args[args.length-1];
+		Path p = pathSetter(args[1]);
 		try{
-			state = p.hasPath(start,destination);
+			state = p.hasPath(args[args.length-2],args[args.length-1]);
 		}
 		catch(startNotFoundError e){
 			System.out.println("City does not belong to list");
@@ -48,17 +55,8 @@ public class Paths {
 		if(state){
 			if(args.length == 4)
 				System.out.println(p.getPath());
-			else{
-				countryCity = fileReader(args[3]).split("\r\n");
-				String[] path = p.getPath().split("->");
-				for(String st:path){
-					for(String c : countryCity){
-						if(c.split(",")[0].equals(st))
-							result+=(st+"["+c.split(",")[1]+"] ");
-					}
-				} 
-				System.out.println(result);
-			}
+			else 
+				System.out.println(addCountry(args[3],p));
 		}
 	}	
 }

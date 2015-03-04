@@ -9,11 +9,11 @@ public class Path{
 	private Map<Start, Destination> map = new HashMap<Start, Destination>();
 	private Set<String> startList = new HashSet<String>();
 	private String path = "";
+	
 	public void insertPath(String start,String destination) {
 		Start s = new Start(start);
-		if(map.get(s)!=null){
+		if(map.get(s)!=null)
 			map.get(s).insert(destination);
-		}
 		else
 			map.put(new Start(start), new Destination(destination));
 	}
@@ -31,6 +31,20 @@ public class Path{
 		return "noStart";
 	}
 
+	private boolean continueSearch(Start tmp,String start,String destination) {
+		this.path+=start+"->";
+		startList.add(start);
+		String newStart = findNewStart(tmp);
+		boolean state = false;
+		if(newStart == "noStart") return false;
+		startList.add(newStart);
+		try{
+			state =  hasPath(newStart,destination);
+		}
+		catch(startNotFoundError e){}
+		return state;
+	}
+
 	public boolean hasPath(String start,String destination)throws startNotFoundError {
 		Start s = new Start(start),tmp = null;
 		Object[] set = map.keySet().toArray();
@@ -42,17 +56,10 @@ public class Path{
 			}
 		if(state == false) 
 			throw new Error("Start not found");			
-		if(state == true && map.get(tmp).place(destination) == false) {
-			this.path+=start+"->";
-			startList.add(start);
-			String newStart = findNewStart(tmp);
-			if(newStart == "noStart") return false;
-			startList.add(newStart);
-			return hasPath(newStart,destination);
-		}
-		if(map.get(tmp).place(destination)){
+		if(!map.get(tmp).place(destination)) 
+			return continueSearch(tmp,start,destination);
+		if(map.get(tmp).place(destination))
 			path+=start+"->"+destination;
-		}
 		startList.add(destination);
 		return map.get(tmp).place(destination);
 	}
