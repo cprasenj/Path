@@ -24,7 +24,7 @@ public class Path{
 		Object[] starts = startList.toArray();
 		for(Object d:dList){
 			for(Object st:starts){
-				if(((String)d).equals((String)st)==false)
+				if(((String)d).equals((String)st)==false) 
 					return (String)d;
 			}
 		}
@@ -34,7 +34,7 @@ public class Path{
 	public boolean hasPath(String start,String destination)throws startNotFoundError {
 		Start s = new Start(start),tmp = null;
 		Object[] set = map.keySet().toArray();
-		boolean state = false; 
+		boolean state = false;
 		for(Object st : set)
 			if(((Start)st).Place().equals(s.Place())) {
 				tmp = (Start)st;
@@ -43,8 +43,8 @@ public class Path{
 		if(state == false) 
 			throw new Error("Start not found");			
 		if(state == true && map.get(tmp).place(destination) == false) {
-			startList.add(start);
 			this.path+=start+"->";
+			startList.add(start);
 			String newStart = findNewStart(tmp);
 			if(newStart == "noStart") return false;
 			startList.add(newStart);

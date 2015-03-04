@@ -110,6 +110,16 @@ public class PathTest {
 		}
 		catch(startNotFoundError err){}
 	}
+
+	@Test
+	public void getPath_gives_between_path_Bangalore_Tokyo(){
+		Path p = path();
+		try{
+			assertEquals(p.hasPath("Bangalore","Tokyo"),true);
+			assertEquals(p.getPath(),"Bangalore->Singapore->Seoul->Beijing->Tokyo");
+		}
+		catch(startNotFoundError err){}
+	}
 }
 
 
