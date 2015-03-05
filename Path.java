@@ -9,7 +9,7 @@ public class Path{
 	private Map<Start, Destination> map = new HashMap<Start, Destination>();
 	private Set<String> startList = new HashSet<String>();
 	private String path = "";
-	
+
 	public void insertPath(String start,String destination) {
 		Start s = new Start(start);
 		if(map.get(s)!=null)
@@ -22,13 +22,40 @@ public class Path{
 		Destination s = map.get(start);
 		Object[] dList = (s.set).toArray();
 		Object[] starts = startList.toArray();
+		Object[] list = map.keySet().toArray();
+		Start begin = null;
 		for(Object d:dList){
 			for(Object st:starts){
-				if(((String)d).equals((String)st)==false) 
-					return (String)d;
+				if(((String)d).equals((String)st)==false)
+					for(Object c:list){
+						if((((Start)c).Place()).equals((String)d)) {
+							if(dList.length == 1)
+								return (String)d;
+							if(!isPresentInPath((String)d))
+								return (String)d;
+						}
+					}
 			}
 		}
 		return "noStart";
+	}
+
+	private boolean isPresentInPath(String s) {
+		boolean isPresent = false;
+		char[] p = path.toCharArray();
+		char[] comparator = s.toCharArray();
+		for(int i = 0;i<p.length;i++) {
+			if(p[i]==comparator[0]){
+				for(int j = 0;j<comparator.length;j++) {
+					if((i+j)<p.length && p[i+j]==comparator[j])
+						isPresent = true;
+					else
+						isPresent = false;
+				}
+			}
+			if(isPresent) return true;
+		}
+		return isPresent;
 	}
 
 	private boolean continueSearch(Start tmp,String start,String destination) {
@@ -43,6 +70,23 @@ public class Path{
 		}
 		catch(startNotFoundError e){}
 		return state;
+	}
+	public boolean pathFinder(String start,String destination) {
+		boolean tORf = false;
+		try{
+			tORf = hasPath(start,destination);			
+		}		
+		catch(startNotFoundError e){
+			throw new Error(e);
+		}
+		if(tORf){
+			path += "&&";
+			try{
+				tORf = hasPath(start,destination);
+			}
+			catch(startNotFoundError e){}
+		}
+		return path.length() == 0 ? false : true;
 	}
 
 	public boolean hasPath(String start,String destination)throws startNotFoundError {
@@ -67,6 +111,7 @@ public class Path{
 	public String getPath() {
 		return this.path; 
 	}
+
 	public Map getCombinations() {
 		return this.map;
 	} 

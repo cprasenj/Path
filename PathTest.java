@@ -8,10 +8,17 @@ public class PathTest {
 	private Path path() {
 		Path p = new Path();
 		p.insertPath("Bangalore","Singapore");
-		p.insertPath("Singapore","Seoul");
 		p.insertPath("Singapore","Dubai");
+		p.insertPath("Singapore","Seoul");
 		p.insertPath("Seoul","Beijing");
 		p.insertPath("Beijing","Tokyo");
+		p.insertPath("Dubai","Seoul");
+		// p.insertPath("Singapore","Bangalore");
+		// p.insertPath("Dubai","Singapore");
+		// p.insertPath("Seoul","Singapore");
+		// p.insertPath("Beijing","Seoul");
+		// p.insertPath("Tokyo","Beijing");
+		// p.insertPath("Seoul","Dubai");
 		return p;
 	}
 
@@ -23,6 +30,24 @@ public class PathTest {
 		}
 		catch(startNotFoundError err){}
 	}
+
+	// @Test
+	// public void there_is_path_between_Singapore_and_Bangalore(){
+	// 	Path p = path();
+	// 	try{
+	// 		assertEquals(p.hasPath("Singapore","Bangalore"),true);
+	// 	}
+	// 	catch(startNotFoundError err){}
+	// }
+
+	// @Test
+	// public void there_is_path_between_Beijing_and_Seoul(){
+	// 	Path p = path();
+	// 	try{
+	// 		assertEquals(p.hasPath("Beijing","Seoul"),true);
+	// 	}
+	// 	catch(startNotFoundError err){}
+	// }
 
 	@Test
 	public void there_is_path_between_Seoul_and_tokyo(){
@@ -114,11 +139,9 @@ public class PathTest {
 	@Test
 	public void getPath_gives_between_path_Bangalore_Tokyo(){
 		Path p = path();
-		try{
-			assertEquals(p.hasPath("Bangalore","Tokyo"),true);
-			assertEquals(p.getPath(),"Bangalore->Singapore->Seoul->Beijing->Tokyo");
-		}
-		catch(startNotFoundError err){}
+		assertEquals(p.pathFinder("Bangalore","Tokyo"),true);
+		assertEquals(p.getPath(),"Bangalore->Singapore->Seoul->Beijing->Tokyo&&Bangalore->Singapore->Dubai->Seoul->Beijing->Tokyo");
+		
 	}
 }
 

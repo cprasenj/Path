@@ -19,7 +19,8 @@ public class Paths {
 		String[] contentArray = fileReader(fileName).split("\r\n");
 		for(String s:contentArray) {
 			String[] stDest = s.split(",");
-			p.insertPath(stDest[0],stDest[1]);	
+			p.insertPath(stDest[0],stDest[1]);
+			p.insertPath(stDest[1],stDest[0]);	
 		}
 		return p;
 	}
