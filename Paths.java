@@ -20,7 +20,7 @@ public class Paths {
 		for(String s:contentArray) {
 			String[] stDest = s.split(",");
 			p.insertPath(stDest[0],stDest[1]);
-			p.insertPath(stDest[1],stDest[0]);	
+			// p.insertPath(stDest[1],stDest[0]);	
 		}
 		return p;
 	}
@@ -41,21 +41,20 @@ public class Paths {
 
 	public static void main(String[] args) {
 		boolean state = false;
+		String[] pathList = null;
 		if(args[0]==null) {
 			System.out.println("No input");
 			return;
 		}
 		Path p = pathSetter(args[1]);
-		try{
-			state = p.hasPath(args[args.length-2],args[args.length-1]);
-		}
-		catch(startNotFoundError e){
-			System.out.println("City does not belong to list");
-		}
+		state = p.pathFinder(args[args.length-2],args[args.length-1]);
 		System.out.println(state);
 		if(state){
-			if(args.length == 4)
-				System.out.println(p.getPath());
+			if(args.length == 4){
+				pathList = p.getPath().split("&&");
+				for(String s : pathList)
+					System.out.println(s);
+			}
 			else 
 				System.out.println(addCountry(args[3],p));
 		}
