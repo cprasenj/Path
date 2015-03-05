@@ -36,15 +36,15 @@ public class Paths {
 		String[] countryCity = null;
 		countryCity = fileReader(fileName).split("\r\n");
 		String[] path = p.getPath().split("&&");
-		for(String way :path) {
-			String[] places = way.split("->");
-			for(int i=0;i<places.length-2;i++){
+		for(int j = 0;j<path.length-1;j++) {
+			String[] places = path[j].split("->");
+			for(int i=0;i<places.length;i++){
 				for(String c : countryCity){
-					if(c.split(",")[0].equals(places[i]))
+					if(c.split(",")[0].equals(places[i]) || (" "+c.split(",")[0]).equals(places[i]))
 						result+=(places[i]+"["+c.split(",")[1]+"] ");
 				}
 			}
-			System.out.println(result);
+			System.out.println(result);	
 			result = "";
 		}
 	}

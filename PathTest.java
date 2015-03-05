@@ -129,11 +129,8 @@ public class PathTest {
 	@Test
 	public void getPath_gives_between_path_Bangalore_Singapore(){
 		Path p = path();
-		try{
-			assertEquals(p.hasPath("Bangalore","Singapore"),true);
-			assertEquals(p.getPath(),"Bangalore->Singapore");
-		}
-		catch(startNotFoundError err){}
+		assertEquals(p.pathFinder("Bangalore","Singapore"),true);
+		assertEquals(p.getPath().split("&&")[0],"Bangalore->Singapore");
 	}
 
 	@Test
@@ -142,7 +139,7 @@ public class PathTest {
 		assertEquals(p.pathFinder("Bangalore","Tokyo"),true);
 		String[] s = p.getPath().split("&&");
 		assertEquals(s[0],"Bangalore->Singapore->Seoul->Beijing->Tokyo");
-		assertEquals(s[1],"Bangalore->Singapore->Dubai->Seoul->Beijing->Tokyo");
+		assertEquals(s[1]," Bangalore->Singapore->Dubai->Seoul->Beijing->Tokyo");
 	}
 }
 
