@@ -81,10 +81,10 @@ public class Path{
 		}
 		if(tORf){
 			path += "&&";
-			try{
-				tORf = hasPath(start,destination);
-			}
-			catch(startNotFoundError e){}
+			// try{
+				tORf = pathFinder(start,destination);
+			// }
+			// catch(startNotFoundError e){}
 		}
 		return path.length() == 0 ? false : true;
 	}

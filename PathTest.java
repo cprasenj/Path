@@ -140,8 +140,9 @@ public class PathTest {
 	public void getPath_gives_between_path_Bangalore_Tokyo(){
 		Path p = path();
 		assertEquals(p.pathFinder("Bangalore","Tokyo"),true);
-		assertEquals(p.getPath(),"Bangalore->Singapore->Seoul->Beijing->Tokyo&&Bangalore->Singapore->Dubai->Seoul->Beijing->Tokyo");
-		
+		String[] s = p.getPath().split("&&");
+		assertEquals(s[0],"Bangalore->Singapore->Seoul->Beijing->Tokyo");
+		assertEquals(s[1],"Bangalore->Singapore->Dubai->Seoul->Beijing->Tokyo");
 	}
 }
 

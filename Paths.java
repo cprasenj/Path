@@ -17,26 +17,36 @@ public class Paths {
 	private static Path pathSetter(String fileName) {
 		Path p = new Path();
 		String[] contentArray = fileReader(fileName).split("\r\n");
-		for(String s:contentArray) {
-			String[] stDest = s.split(",");
-			p.insertPath(stDest[0],stDest[1]);
-			// p.insertPath(stDest[1],stDest[0]);	
-		}
+		p.insertPath("Bangalore","Singapore");
+		p.insertPath("Singapore","Dubai");
+		p.insertPath("Singapore","Seoul");
+		p.insertPath("Seoul","Beijing");
+		p.insertPath("Beijing","Tokyo");
+		p.insertPath("Dubai","Seoul");
+		// for(String s:contentArray) {
+		// 	String[] stDest = s.split(",");
+		// 	p.insertPath(stDest[0],stDest[1]);
+		// 	// p.insertPath(stDest[1],stDest[0]);	
+		// }
 		return p;
 	}
 
-	public static String addCountry(String fileName,Path p) {
+	public static void addCountry(String fileName,Path p) {
 		String result = "";
 		String[] countryCity = null;
 		countryCity = fileReader(fileName).split("\r\n");
-		String[] path = p.getPath().split("->");
-		for(String st:path){
-			for(String c : countryCity){
-				if(c.split(",")[0].equals(st))
-					result+=(st+"["+c.split(",")[1]+"] ");
+		String[] path = p.getPath().split("&&");
+		for(String way :path) {
+			String[] places = way.split("->");
+			for(int i=0;i<places.length-2;i++){
+				for(String c : countryCity){
+					if(c.split(",")[0].equals(places[i]))
+						result+=(places[i]+"["+c.split(",")[1]+"] ");
+				}
 			}
+			System.out.println(result);
+			result = "";
 		}
-		return result;	
 	}
 
 	public static void main(String[] args) {
@@ -56,7 +66,7 @@ public class Paths {
 					System.out.println(s);
 			}
 			else 
-				System.out.println(addCountry(args[3],p));
+				addCountry(args[3],p);
 		}
 	}	
 }
