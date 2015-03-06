@@ -7,12 +7,12 @@ import java.util.HashMap;
 public class PathTest {
 	private Path path() {
 		Path p = new Path();
-		p.insertPath("Bangalore","Singapore");
-		p.insertPath("Singapore","Dubai");
-		p.insertPath("Singapore","Seoul");
-		p.insertPath("Seoul","Beijing");
-		p.insertPath("Beijing","Tokyo");
-		p.insertPath("Dubai","Seoul");
+		p.insertPath("Bangalore","Singapore",500);
+		p.insertPath("Singapore","Dubai",500);
+		p.insertPath("Singapore","Seoul",500);
+		p.insertPath("Seoul","Beijing",500);
+		p.insertPath("Beijing","Tokyo",500);
+		p.insertPath("Dubai","Seoul",500);
 		// p.insertPath("Singapore","Bangalore");
 		// p.insertPath("Dubai","Singapore");
 		// p.insertPath("Seoul","Singapore");

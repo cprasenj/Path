@@ -6,15 +6,16 @@ class startNotFoundError extends Exception {
 }
 
 public class Path{
-	private Map<Start, Destination> map = new HashMap<Start, Destination>();
+	public Map<Start, Destination> map = new HashMap<Start, Destination>();
 	private Set<String> startList = new HashSet<String>();
 	private String path = "";
-	public void insertPath(String start,String destination) {
+	private int cost = 0;
+	public void insertPath(String start,String destination,int cost) {
 		Start s = new Start(start);
 		if(map.get(s)!=null)
-			map.get(s).insert(destination);
+			map.get(s).insert(destination,cost);
 		else
-			map.put(new Start(start), new Destination(destination));
+			map.put(new Start(start), new Destination(destination,cost));
 	}
 
 	private String findNewStart(Start start) {
