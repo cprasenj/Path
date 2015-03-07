@@ -23,14 +23,6 @@ public class Path{
 		Object[] dList = (s.set).toArray();
 		Object[] starts = startList.toArray();
 		Object[] list = map.keySet().toArray();
-				
-
-	}
-	private String findNewStart(Start start) {
-		Destination s = map.get(start);
-		Object[] dList = (s.set).toArray();
-		Object[] starts = startList.toArray();
-		Object[] list = map.keySet().toArray();
 		for(Object d:dList){
 			for(Object st:starts){
 				if(((String)d).equals((String)st)==false)
@@ -47,6 +39,15 @@ public class Path{
 		return "noStart";
 	}
 
+	private boolean isPresentInPathUnderConstruction(String place) {
+		boolean isPresent = false; 
+		Object[] placeList = path.split("&&")[path.split("&&").length-1].split("->");
+		for(Object p :placeList)
+			if(p.equals(place))
+				isPresent = true;
+		return isPresent;
+	}
+
 	private boolean isPresentInPath(String s) {
 		boolean isPresent = false;
 		char[] p = path.toCharArray();
@@ -58,6 +59,13 @@ public class Path{
 						isPresent = true;
 					else
 						isPresent = false;
+				}
+			}
+			if(isPresent){
+				int underConstructionPathLength = path.split("&&")[path.split("&&").length-1].split("->").length;
+				if(path.split("&&").length>1 && path.split("&&")[path.split("&&").length-2].split("->").length>underConstructionPathLength){
+					if(!path.split("&&")[path.split("&&").length-2].split("->")[underConstructionPathLength].equals(s))
+						isPresent = isPresentInPathUnderConstruction(s);
 				}
 			}
 			if(isPresent) return true;
@@ -114,7 +122,6 @@ public class Path{
 	}
 
 	public String getPath() {
-		System.out.println(this.path);
 		return this.path;
 	}
 
