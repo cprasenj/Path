@@ -23,7 +23,14 @@ public class Path{
 		Object[] dList = (s.set).toArray();
 		Object[] starts = startList.toArray();
 		Object[] list = map.keySet().toArray();
-		Start begin = null;
+				
+
+	}
+	private String findNewStart(Start start) {
+		Destination s = map.get(start);
+		Object[] dList = (s.set).toArray();
+		Object[] starts = startList.toArray();
+		Object[] list = map.keySet().toArray();
 		for(Object d:dList){
 			for(Object st:starts){
 				if(((String)d).equals((String)st)==false)
@@ -107,6 +114,7 @@ public class Path{
 	}
 
 	public String getPath() {
+		System.out.println(this.path);
 		return this.path;
 	}
 

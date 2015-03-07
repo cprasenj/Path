@@ -13,12 +13,12 @@ public class PathTest {
 		p.insertPath("Seoul","Beijing",500);
 		p.insertPath("Beijing","Tokyo",500);
 		p.insertPath("Dubai","Seoul",500);
-		// p.insertPath("Singapore","Bangalore");
-		// p.insertPath("Dubai","Singapore");
-		// p.insertPath("Seoul","Singapore");
-		// p.insertPath("Beijing","Seoul");
-		// p.insertPath("Tokyo","Beijing");
-		// p.insertPath("Seoul","Dubai");
+		p.insertPath("Singapore","Bangalore",500);
+		p.insertPath("Dubai","Singapore",500);
+		p.insertPath("Seoul","Singapore",500);
+		p.insertPath("Beijing","Seoul",500);
+		p.insertPath("Tokyo","Beijing",500);
+		p.insertPath("Seoul","Dubai",500);
 		return p;
 	}
 
@@ -31,23 +31,23 @@ public class PathTest {
 		catch(startNotFoundError err){}
 	}
 
-	// @Test
-	// public void there_is_path_between_Singapore_and_Bangalore(){
-	// 	Path p = path();
-	// 	try{
-	// 		assertEquals(p.hasPath("Singapore","Bangalore"),true);
-	// 	}
-	// 	catch(startNotFoundError err){}
-	// }
+	@Test
+	public void there_is_path_between_Singapore_and_Bangalore(){
+		Path p = path();
+		try{
+			assertEquals(p.hasPath("Singapore","Bangalore"),true);
+		}
+		catch(startNotFoundError err){}
+	}
 
-	// @Test
-	// public void there_is_path_between_Beijing_and_Seoul(){
-	// 	Path p = path();
-	// 	try{
-	// 		assertEquals(p.hasPath("Beijing","Seoul"),true);
-	// 	}
-	// 	catch(startNotFoundError err){}
-	// }
+	@Test
+	public void there_is_path_between_Beijing_and_Seoul(){
+		Path p = path();
+		try{
+			assertEquals(p.hasPath("Beijing","Seoul"),true);
+		}
+		catch(startNotFoundError err){}
+	}
 
 	@Test
 	public void there_is_path_between_Seoul_and_tokyo(){
@@ -140,6 +140,14 @@ public class PathTest {
 		String[] s = p.getPath().split("&&");
 		assertEquals(s[0],"Bangalore->Singapore->Seoul->Beijing->Tokyo");
 		assertEquals(s[1]," Bangalore->Singapore->Dubai->Seoul->Beijing->Tokyo");
+	}
+
+	@Test
+	public void getPath_gives_between_path_Tokyo_Bangalore(){
+		Path p = path();
+		assertEquals(p.pathFinder("Tokyo","Bangalore"),true);
+		String[] s = p.getPath().split("&&");
+		assertEquals(s[0],"Tokyo->Beijing->Seoul->Singapore->Bangalore");
 	}
 }
 
