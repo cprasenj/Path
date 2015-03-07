@@ -3,7 +3,8 @@ import java.io.*;
 
 public class Paths {
 	private Map<String,String> map = new HashMap<String,String>();
-
+	private static List<String> paths = new ArrayList<String>();
+	private static List<Integer> costs = new ArrayList<Integer>();
 	private static String fileReader(String fileName) {
 		FileReader f = new FileReader();
 		String content = null;
@@ -18,14 +19,14 @@ public class Paths {
 		Path p = new Path();
 		String[] contentArray = fileReader(fileName).split("\r\n");
 		p.insertPath("Bangalore","Singapore",500);
-		p.insertPath("Singapore","Dubai",500);
 		p.insertPath("Singapore","Seoul",500);
+		p.insertPath("Singapore","Dubai",500);
 		p.insertPath("Seoul","Beijing",500);
 		p.insertPath("Beijing","Tokyo",500);
 		p.insertPath("Dubai","Seoul",500);
 		// for(String s:contentArray) {
 		// 	String[] stDest = s.split(",");
-		// 	p.insertPath(stDest[0],stDest[1]);
+		// 	p.insertPath(stDest[0],stDest[1],Integer.parseInt(stDest[2]));
 		// }
 		return p;
 	}
@@ -81,7 +82,17 @@ public class Paths {
 			if(args.length == 4){
 				pathList = p.getPath().split("&&");
 				for(int i = 0;i<pathList.length-1 ;i++) {
-					System.out.println((pathList[i]+"   "+calculateCost(pathList[i].trim(),p)).trim());
+					paths.add(pathList[i]+" : "+calculateCost(pathList[i].trim(),p));
+					costs.add(calculateCost(pathList[i].trim(),p));
+					// System.out.println((pathList[i]+"   "+calculateCost(pathList[i].trim(),p)).trim());
+				}
+				Object[] sortedCosts = costs.toArray();
+				Arrays.sort(sortedCosts);
+				for(int j = 0;j<sortedCosts.length ;j++){
+					for(String pt:paths){
+						if(Integer.parseInt(pt.split(" : ")[1]) == (int)sortedCosts[j])
+							System.out.println(pt.trim());
+					}
 				}
 			}
 			else {
