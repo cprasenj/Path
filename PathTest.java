@@ -148,6 +148,7 @@ public class PathTest {
 		assertEquals(p.pathFinder("Tokyo","Bangalore"),true);
 		String[] s = p.getPath().split("&&");
 		assertEquals(s[0],"Tokyo->Beijing->Seoul->Singapore->Bangalore");
+		// assertEquals(s[1],"Tokyo->Beijing->Seoul->Dubai->Singapore->Bangalore");
 	}
 }
 

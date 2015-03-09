@@ -10,13 +10,26 @@ public class Path{
 	private Set<String> startList = new HashSet<String>();
 	private String path = "";
 	private int cost = 0;
+
+	private boolean isStartPresent(String place) {
+		Object[] keyset = map.keySet().toArray();
+		for(Object key : keyset)
+			if(((Start)key).Place().equals(place))
+				return true;
+		return false;
+	}
+
 	public void insertPath(String start,String destination,int cost) {
-		Start s = new Start(start);
-		if(map.get(s)!=null)
-			map.get(s).insert(destination,cost);
+		Object[] keyset = map.keySet().toArray();
+		if(isStartPresent(start))
+			for(Object key : keyset) {
+				if(((Start)key).Place().equals(start))
+					map.get((Start)key).insert(destination,cost);
+		}
 		else
 			map.put(new Start(start), new Destination(destination,cost));
 	}
+
 
 	private String findNewStart(Start start) {
 		Destination s = map.get(start);
@@ -40,10 +53,10 @@ public class Path{
 	}
 
 	private boolean isPresentInPathUnderConstruction(String place) {
-		boolean isPresent = false; 
+		boolean isPresent = false;
 		Object[] placeList = path.split("&&")[path.split("&&").length-1].split("->");
 		for(Object p :placeList)
-			if(p.equals(place))
+			if(((String)p).trim().equals(place))
 				isPresent = true;
 		return isPresent;
 	}
