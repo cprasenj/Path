@@ -5,6 +5,7 @@ public class Paths {
 	private Map<String,String> map = new HashMap<String,String>();
 	private static List<String> paths = new ArrayList<String>();
 	private static List<Integer> costs = new ArrayList<Integer>();
+
 	private static String fileReader(String fileName) {
 		FileReader f = new FileReader();
 		String content = null;
@@ -21,15 +22,16 @@ public class Paths {
 		for(String s:contentArray) {
 			String[] stDest = s.split(",");
 			p.insertPath(stDest[0],stDest[1],Integer.parseInt(stDest[2]));
+			p.insertPath(stDest[1],stDest[0],Integer.parseInt(stDest[2]));
 		}
 		return p;
 	}
 
-	public static void addCountry(String fileName,Path p) {
+	public static void addCountry(String fileName,Path p,String start,String destination) {
 		String result = "";
 		String[] countryCity = null;
 		countryCity = fileReader(fileName).split("\r\n");
-		String[] path = p.getPath().split("&&");
+		String[] path = p.getPath(start,destination).split("&&");
 		for(int j = 0;j<path.length-1;j++) {
 			String[] places = path[j].split("->");
 			for(int i=0;i<places.length;i++){
@@ -39,7 +41,7 @@ public class Paths {
 					}
 				}
 			}
-			System.out.println(result);	
+			System.out.println(result.trim() + calculateCost(path[j],p));	
 			result = "";
 		}
 	}
@@ -49,7 +51,7 @@ public class Paths {
 		String[] places = path.split("->");
 		Object[] startList = p.map.keySet().toArray();
 		int limit = places.length;
-		for(int i = 1;i<=limit;i++) {
+		for(int i = 1;i<limit;i++) {
 			for(Object o:startList){
 				Map<String,Integer> destinationCostList = p.map.get((Start)o).costAndDestination;
 				Object[] dts = destinationCostList.keySet().toArray();
@@ -65,8 +67,8 @@ public class Paths {
 	public static void main(String[] args) {
 		boolean state = false;
 		String[] pathList = null;
-		if(args[0]==null) {
-			System.out.println("No input");
+		if(args[0]==null || !Arrays.asList(args).contains("-f")) {
+			System.out.println("Improper input");
 			return;
 		}
 		Path p = pathSetter(args[1]);
@@ -74,14 +76,14 @@ public class Paths {
 		System.out.println(state);
 		if(state){
 			if(args.length == 4){
-				pathList = p.getPath().split("&&");
-				for(int i = 0;i<pathList.length-1 ;i++) {
+				pathList = p.getPath(args[args.length-2],args[args.length-1]).split("&&");
+				for(int i = 0;i<pathList.length;i++) {
 					paths.add(pathList[i]+" : "+calculateCost(pathList[i].trim(),p));
 					costs.add(calculateCost(pathList[i].trim(),p));
 				}
 				Object[] sortedCosts = costs.toArray();
 				Arrays.sort(sortedCosts);
-				for(int j = 0;j<sortedCosts.length ;j++){
+				for(int j = 0;j<sortedCosts.length;j++){
 					for(String pt:paths){
 						if(Integer.parseInt(pt.split(" : ")[1]) == (int)sortedCosts[j])
 							System.out.println(pt.trim());
@@ -89,7 +91,7 @@ public class Paths {
 				}
 			}
 			else {
-				addCountry(args[3],p);
+				addCountry(args[3],p,args[args.length-2],args[args.length-1]);
 			}
 		}
 	}	

@@ -30,11 +30,11 @@ public class Path{
 			map.put(new Start(start), new Destination(destination,cost));
 	}
 
-
 	private String findNewStart(Start start) {
 		Destination s = map.get(start);
 		Object[] dList = (s.set).toArray();
 		Object[] starts = startList.toArray();
+		String newStart = null;
 		Object[] list = map.keySet().toArray();
 		for(Object d:dList){
 			for(Object st:starts){
@@ -61,11 +61,21 @@ public class Path{
 		return isPresent;
 	}
 
+	private boolean alternativeStart(String s) {
+		String[] underConstructionPath = path.split("&&")[path.split("&&").length-1].split("->");
+		boolean tORf = path.split("&&").length>1 && 
+		path.split("&&")[path.split("&&").length-2].split("->").length>underConstructionPath.length; 
+		if(tORf)
+			if(!path.split("&&")[path.split("&&").length-2].split("->")[underConstructionPath.length].equals(s))
+				return isPresentInPathUnderConstruction(s);
+		return true;
+	}
+
 	private boolean isPresentInPath(String s) {
 		boolean isPresent = false;
 		char[] p = path.toCharArray();
 		char[] comparator = s.toCharArray();
-		for(int i = 0;i<p.length;i++) {
+		for(int i = 0;i<p.length;i++) 
 			if(p[i]==comparator[0]){
 				for(int j = 0;j<comparator.length;j++) {
 					if((i+j)<p.length && p[i+j]==comparator[j])
@@ -73,14 +83,8 @@ public class Path{
 					else
 						isPresent = false;
 				}
-			}
-			if(isPresent){
-				int underConstructionPathLength = path.split("&&")[path.split("&&").length-1].split("->").length;
-				if(path.split("&&").length>1 && path.split("&&")[path.split("&&").length-2].split("->").length>underConstructionPathLength){
-					if(!path.split("&&")[path.split("&&").length-2].split("->")[underConstructionPathLength].equals(s))
-						isPresent = isPresentInPathUnderConstruction(s);
-				}
-			}
+			if(isPresent)
+				isPresent = alternativeStart(s);
 			if(isPresent) return true;
 		}
 		return isPresent;
@@ -93,20 +97,13 @@ public class Path{
 		boolean state = false;
 		if(newStart == "noStart") return false;
 		startList.add(newStart);
-		try{
-			state =  hasPath(newStart,destination);
-		}
-		catch(startNotFoundError e){}
+		state =  hasPath(newStart,destination);
 		return state;
 	}
+	
 	public boolean pathFinder(String start,String destination) {
 		boolean tORf = false;
-		try{
-			tORf = hasPath(start,destination);			
-		}		
-		catch(startNotFoundError e){
-			throw new Error(e);
-		}
+		tORf = hasPath(start,destination);			
 		if(tORf){
 			path += "&& ";
 			if(path.split("&&").length == 2 && !path.split("&& ")[0].equals(path.split("&&")[1])) 
@@ -115,7 +112,7 @@ public class Path{
 		return path.length() == 0 ? false : true;
 	}
 
-	public boolean hasPath(String start,String destination)throws startNotFoundError {
+	public boolean isThereAnyPath(String start,String destination) {
 		Start s = new Start(start),tmp = null;
 		Object[] set = map.keySet().toArray();
 		boolean state = false;
@@ -124,8 +121,7 @@ public class Path{
 				tmp = (Start)st;
 				state = true;
 			}
-		if(state == false) 
-			throw new Error("Start not found");			
+		if(!state) return false; 
 		if(!map.get(tmp).place(destination)) 
 			return continueSearch(tmp,start,destination);
 		if(map.get(tmp).place(destination))
@@ -134,7 +130,27 @@ public class Path{
 		return map.get(tmp).place(destination);
 	}
 
-	public String getPath() {
+	public boolean hasPath(String start,String destination) {
+		return (isThereAnyPath(start,destination)) ? true : isThereAnyPath(destination,start);
+	}
+
+	private String pathAlterNator() {
+		String newPath = "";
+		String[] paths = path.split("&&");
+		for(int i = 0;i<paths.length-1;i++) {
+			String[] spots = paths[i].split("->");
+			for(int j = spots.length-1;j>0;j--){
+				newPath+=spots[j]+"->";
+			}
+			newPath+=spots[0].trim()+"&&";
+		}
+		return newPath;
+	}
+
+	public String getPath(String start,String destination) {
+		if(!isThereAnyPath(start,destination)) {
+			return pathAlterNator();
+		}
 		return this.path;
 	}
 
