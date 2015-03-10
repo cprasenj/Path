@@ -95,7 +95,7 @@ public class PathManager{
 		this.pathAndCost = pathAndCostWithCountry;		
 	}
 
-	private void printPathaccordingToCost() {
+	private void printPathAccordingToCost() {
 		Object[] sortedCosts = costs.toArray();
 		Arrays.sort(sortedCosts);
 		for(int j = 0;j<sortedCosts.length;j++){
@@ -110,16 +110,35 @@ public class PathManager{
 		Map options = inputParser(args);
 		String[] pathList = null,countryAndCity = null;
 		Path p = pathSetter(fileReader((String)options.get("pathFile")));
-		boolean status = p.pathFinder((String)options.get("start"),(String)options.get("destination"));
-		System.out.println(status);
-		if(status) {
-			pathList = p.getPath((String)options.get("start"),(String)options.get("destination")).split("&&");
-			calCulateCost(pathList,p);
-			if(options.get("cityFile")!=null) {
-				countryAndCity = fileReader((String)options.get("cityFile")).split("\r\n");
-				addCountryName(countryAndCity);
-			}
-			printPathaccordingToCost();
-		}
+        if(isCityExists((String)options.get("start"),(String)options.get("destination"),p,(String)options.get("pathFile"))) {
+            boolean status = p.pathFinder((String) options.get("start"), (String) options.get("destination"));
+            System.out.println(status);
+            if (status) {
+                pathList = p.getPath((String) options.get("start"), (String) options.get("destination")).split("&&");
+                calCulateCost(pathList, p);
+                if (options.get("cityFile") != null) {
+                    countryAndCity = fileReader((String) options.get("cityFile")).split("\r\n");
+                    addCountryName(countryAndCity);
+                }
+                printPathAccordingToCost();
+            }
+        }
 	}
+
+    public boolean isCityExists(String start, String destination, Path p, String pathFile) {
+        boolean startPresent = false,destinationPresent = false;
+        String[] pathFilecontent = fileReader(pathFile).split("\r\n");
+        for (String pathSet : pathFilecontent) {
+            String[] cities = pathSet.split(",");
+            if(start.equals(cities[0]) || start.equals(cities[1])) startPresent = true;
+
+            if(destination.equals(cities[0]) || destination.equals(cities[1])) destinationPresent =  true;
+        }
+        if(startPresent == true && destinationPresent == true){
+            return true;
+        }
+        if(!startPresent) System.out.println(start+" is not present in data base");
+        if(!destinationPresent) System.out.println(destination+" is not present in data base");
+        return false;
+    }
 }
