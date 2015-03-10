@@ -27,7 +27,7 @@ public class PathTest {
 		Path p = path();
 		assertEquals(p.hasPath("Singapore","Bangalore"),true);
 	}
-
+    
 	@Test
 	public void there_is_path_between_Beijing_and_Seoul(){
 		Path p = path();
